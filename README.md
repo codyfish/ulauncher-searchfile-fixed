@@ -1,5 +1,5 @@
 
-##ulauncher-searchfile-fixed
+## ulauncher-searchfile-fixed
 
 This is a fixed python3 version of https://github.com/compilelife/ulauncher-searchfile,
 a ulauncher plugin that uses locate to search file. It fixes freezes occurring when
