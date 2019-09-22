@@ -13,10 +13,8 @@ from ulauncher.api.shared.action.ExtensionCustomAction import ExtensionCustomAct
 from ulauncher.api.shared.action.RunScriptAction import RunScriptAction
 from locator import Locator
 
-
-
-
 locator = Locator()
+
 
 class Options:
     def __init__(self):
@@ -33,6 +31,7 @@ class Options:
 
 
 opts = Options()
+
 
 class SearchFileExtension(Extension):
     def __init__(self):
@@ -65,8 +64,8 @@ class ItemEnterEventListener(EventListener):
         items = []
         for file in results:
             items.append(ExtensionSmallResultItem(icon='images/copy.png',
-                name = file,
-                on_enter = CopyToClipboardAction(file)))
+                                                  name=file,
+                                                  on_enter=CopyToClipboardAction(file)))
         return RenderResultListAction(items)
 
 
@@ -75,16 +74,15 @@ class KeywordQueryEventListener(EventListener):
         all_opt = opts.get_all()
         items = []
         for i in range(len(all_opt)):
-            hint_str='locate '+all_opt[i]
-            query_str='s r '+all_opt[i]+' '
-            ## print (type(hint_str))
+            hint_str = 'locate ' + all_opt[i]
+            query_str = 's r ' + all_opt[i] + ' '
             items.append(ExtensionSmallResultItem(icon='images/info.png',
                                                   name=hint_str,
                                                   on_enter=SetUserQueryAction(
                                                       query_str)
                                                   ))
         return items
-                
+
     def on_event(self, event, extension):
         arg = event.get_argument()
         items = []
@@ -97,15 +95,15 @@ class KeywordQueryEventListener(EventListener):
                 alt_action = ExtensionCustomAction(results, True)
                 for file in results:
                     items.append(ExtensionSmallResultItem(icon='images/ok.png',
-                        name = str(file, 'utf-8'), 
-                        on_enter = OpenAction(file),
-                        on_alt_enter = alt_action))
-            except Exception as e:
+                                                          name=file,
+                                                          on_enter=RunScriptAction("xdg-open '%s'" % file, None),
+                                                          on_alt_enter=alt_action))
+            except Except:ion, e:
                 error_info = str(e)
                 items = [ExtensionSmallResultItem(icon='images/error.png',
-                                                name = error_info,
-                                                on_enter = CopyToClipboardAction(error_info))]
-        
+                                                  name=error_info,
+                                                  on_enter=CopyToClipboardAction(error_info))]
+
         return RenderResultListAction(items)
 
 
